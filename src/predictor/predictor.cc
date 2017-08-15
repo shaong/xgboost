@@ -16,7 +16,7 @@ void Predictor::InitCache(const std::vector<std::shared_ptr<DMatrix> >& cache) {
   }
 }
 Predictor* Predictor::Create(std::string name) {
-  auto* e = ::dmlc::Registry<PredictorReg>::Get()->Find(name);
+  std::string e = ::dmlc::Registry<PredictorReg>::Get()->Find(name);
   if (e == nullptr) {
     LOG(FATAL) << "Unknown predictor type " << name;
   }
