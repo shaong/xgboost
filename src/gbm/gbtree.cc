@@ -59,12 +59,12 @@ struct GBTreeTrainParam : public dmlc::Parameter<GBTreeTrainParam> {
         .set_default(kDefault)
         .add_enum("default", kDefault)
         .add_enum("update", kUpdate)
-        .describe("Whether to run the normal boosting process that creates new trees,"\
+        .describe("Whether to run the normal boosting process that creates new trees"\
                   " or to update the trees in an existing model.");
     DMLC_DECLARE_FIELD(debug_verbose)
         .set_lower_bound(0)
         .set_default(0)
-        .describe("flag to print out detailed breakdown of runtime");
+        .describe("Flag to print out detailed breakdown of runtime");
     // add alias
     DMLC_DECLARE_ALIAS(updater_seq, updater);
   }
@@ -90,7 +90,7 @@ struct DartTrainParam : public dmlc::Parameter<DartTrainParam> {
   DMLC_DECLARE_PARAMETER(DartTrainParam) {
     DMLC_DECLARE_FIELD(silent)
         .set_default(false)
-        .describe("Not print information during training.");
+        .describe("Decide whether to not print information during training.");
     DMLC_DECLARE_FIELD(sample_type)
         .set_default(0)
         .add_enum("uniform", 0)
@@ -107,7 +107,7 @@ struct DartTrainParam : public dmlc::Parameter<DartTrainParam> {
         .describe("Fraction of trees to drop during the dropout.");
     DMLC_DECLARE_FIELD(one_drop)
         .set_default(false)
-        .describe("Whether at least one tree should always be dropped during the dropout.");
+        .describe("Decide whether at least one tree should always be dropped during the dropout.");
     DMLC_DECLARE_FIELD(skip_drop)
         .set_range(0.0f, 1.0f)
         .set_default(0.0f)
@@ -184,7 +184,7 @@ class GBTree : public GradientBooster {
       new_trees.push_back(std::move(ret));
     } else {
       CHECK_EQ(gpair.size() % ngroup, 0U)
-          << "must have exactly ngroup*nrow gpairs";
+          << "Must have exactly ngroup*nrow gpairs";
       std::vector<bst_gpair> tmp(gpair.size() / ngroup);
       for (int gid = 0; gid < ngroup; ++gid) {
         bst_omp_uint nsize = static_cast<bst_omp_uint>(tmp.size());
@@ -197,7 +197,7 @@ class GBTree : public GradientBooster {
         new_trees.push_back(std::move(ret));
       }
     }
-    float tstart = dmlc::GetTime();
+    double tstart = dmlc::GetTime();
     for (int gid = 0; gid < ngroup; ++gid) {
       this->CommitModel(std::move(new_trees[gid]), gid);
     }
@@ -412,7 +412,7 @@ class Dart : public GBTree {
     InitThreadTemp(nthread);
     std::vector<bst_float>& preds = *out_preds;
     CHECK_EQ(model_.param.size_leaf_vector, 0)
-        << "size_leaf_vector is enforced to 0 so far";
+        << "size_leaf_vector is enforced to 0 so far.";
     CHECK_EQ(preds.size(), p_fmat->info().num_row * num_group);
     // start collecting the prediction
     dmlc::DataIter<RowBatch>* iter = p_fmat->RowIterator();
@@ -468,8 +468,8 @@ class Dart : public GBTree {
     model_.param.num_trees += static_cast<int>(new_trees.size());
     size_t num_drop = NormalizeTrees(new_trees.size());
     if (dparam.silent != 1) {
-      LOG(INFO) << "drop " << num_drop << " trees, "
-                << "weight = " << weight_drop.back();
+      LOG(INFO) << "Drop " << num_drop << " Trees, "
+                << "Weight = " << weight_drop.back();
     }
   }
   // predict the leaf scores without dropped trees
@@ -590,7 +590,7 @@ class Dart : public GBTree {
   std::vector<bst_float> weight_drop;
   // indexes of dropped trees
   std::vector<size_t> idx_drop;
-  // temporal storage for per thread
+  // temporal storage per thread
   std::vector<RegTree::FVec> thread_temp;
 };
 
