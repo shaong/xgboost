@@ -143,7 +143,7 @@ class GBTree : public GradientBooster {
     this->cfg = cfg;
     model_.Configure(cfg);
     // initialize the updaters only when needed.
-    std::string updater_seq = tparam.updater_seq;
+    auto updater_seq = tparam.updater_seq;
     tparam.InitAllowUnknown(cfg);
     if (updater_seq != tparam.updater_seq) updaters.clear();
     for (const auto& up : updaters) {
@@ -242,8 +242,8 @@ class GBTree : public GradientBooster {
   // initialize updater before using them
   inline void InitUpdater() {
     if (updaters.size() != 0) return;
-    std::string tval = tparam.updater_seq;
-    std::vector<std::string> ups = common::Split(tval, ',');
+    auto tval = tparam.updater_seq;
+    auto ups = common::Split(tval, ',');
     for (const std::string& pstr : ups) {
       std::unique_ptr<TreeUpdater> up(TreeUpdater::Create(pstr.c_str()));
       up->Init(this->cfg);
