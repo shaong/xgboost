@@ -197,7 +197,7 @@ class GBTree : public GradientBooster {
         new_trees.push_back(std::move(ret));
       }
     }
-    double tstart = dmlc::GetTime();
+    float tstart = dmlc::GetTime();
     for (int gid = 0; gid < ngroup; ++gid) {
       this->CommitModel(std::move(new_trees[gid]), gid);
     }
