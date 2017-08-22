@@ -189,25 +189,6 @@ class GBTree : public GradientBooster {
       for (int gid = 0; gid< ngroup; ++gid) {
         bst_omp_uint nsize = static_cast<bst_omp_uint>(tmp.size());
         #pragma omp parallel for schedule(static)
-        for (bst_omp_uint i = 0; i < nsize; ++i) {
-          tmp[i] = gpair[i * ngroup + gid];
-        }
-        std::vector<std::unique_ptr<RegTree> > ret;
-        BoostNewTrees(tmp, p_fmat, gid, &ret);
-        new_trees.push_back(std::move(ret));
-      }
-    }
-    double tstart = dmlc::GetTime();
-    do
-    {   
-      int gid = 0;
-      this->CommitModel(std::move(new_trees[gid]), gid);
-      ++gid;
-    }while(gid < ngrup;)
-    if (tparam.debug_verbose > 0) {
-      LOG(INFO) << "CommitModel(): " << dmlc::GetTime() - tstart << " sec";
-    }
-  }
 
   void PredictBatch(DMatrix* p_fmat,
                std::vector<bst_float>* out_preds,
