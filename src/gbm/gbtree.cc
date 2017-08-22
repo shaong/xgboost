@@ -186,7 +186,7 @@ class GBTree : public GradientBooster {
       CHECK_EQ(gpair.size() % ngroup, 0U)
           << "must have exactly ngroup*nrow gpairs";
       std::vector<bst_gpair> tmp(gpair.size() / ngroup);
-      for (int gid = 0; gid < ngroup; ++gid) {
+      for (int gid = 0; gid< ngroup; ++gid) {
         bst_omp_uint nsize = static_cast<bst_omp_uint>(tmp.size());
         #pragma omp parallel for schedule(static)
         for (bst_omp_uint i = 0; i < nsize; ++i) {
@@ -198,9 +198,12 @@ class GBTree : public GradientBooster {
       }
     }
     double tstart = dmlc::GetTime();
-    for (int gid = 0; gid < ngroup; ++gid) {
+    do
+    {   
+      int gid = 0;
       this->CommitModel(std::move(new_trees[gid]), gid);
-    }
+      ++gid;
+    }while(gid < ngrup;)
     if (tparam.debug_verbose > 0) {
       LOG(INFO) << "CommitModel(): " << dmlc::GetTime() - tstart << " sec";
     }
