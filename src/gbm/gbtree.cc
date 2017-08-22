@@ -430,7 +430,7 @@ class Dart : public GBTree {
         RegTree::FVec& feats = thread_temp[tid];
         int64_t ridx[K];
         RowBatch::Inst inst[K];
-        for (int k = 0; k < K; ++k) {
+        for (int k = 0; k < K; k++) {
           ridx[k] = static_cast<int64_t>(batch.base_rowid + i + k);
         }
         for (int k = 0; k < K; ++k) {
