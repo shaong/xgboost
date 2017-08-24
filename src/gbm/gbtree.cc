@@ -546,8 +546,7 @@ class Dart : public GBTree {
       for (size_t i = 0; i < size_new_trees; ++i) {
         weight_drop.push_back(1.0);
       }
-    } else {
-      if (dparam.normalize_type == 1) {
+    } else if (dparam.normalize_type == 1) {
         // normalize_type 1
         float factor = 1.0 / (1.0 + lr);
         for (size_t i = 0; i < idx_drop.size(); ++i) {
