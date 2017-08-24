@@ -92,7 +92,7 @@ struct DartTrainParam : public dmlc::Parameter<DartTrainParam> {
         .set_default(false)
         .describe("Not print information during training.");
     DMLC_DECLARE_FIELD(sample_type)
-        .set_default(0)
+        .set_default(1)
         .add_enum("uniform", 0)
         .add_enum("weighted", 1)
         .describe("Different types of sampling algorithm.");
