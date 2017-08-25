@@ -48,13 +48,13 @@ if [ ${TASK} == "python_lightweight_test" ]; then
     echo "-------------------------------"
     source activate python3
     python --version
-    conda install numpy scipy nose
+    conda install numpy scipy nose scikit-learn
     python -m pip install graphviz
     python -m nose tests/python || exit -1
     source activate python2
     echo "-------------------------------"
     python --version
-    conda install numpy scipy nose
+    conda install numpy scipy nose scikit-learn
     python -m pip install graphviz
     python -m nose tests/python || exit -1
     python -m pip install flake8
