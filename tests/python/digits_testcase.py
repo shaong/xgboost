@@ -3,8 +3,7 @@ import itertools
 import json
 import numpy as np
 import xgboost as xgb
-from sklearn.datasets import load_digits
-from sklearn.model_selection import 
+from sklearn.datasets import load_digit
 
 class TestDigits(unittest.TestCase):
       digits = load_digits(2)
