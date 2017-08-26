@@ -24,8 +24,6 @@ env:
     - TASK=cmake_test
     # c++ test
     - TASK=cpp_test
-  global:
-    - secure: "nrpxVaCT+UZ5IoSysFwl4VAOlceZxtgAQ0b66L5e54UbBnCSCaJxyV0AgLcIV4dHAWUmw2yHv+G1jEEUBBcruW+ReTR0RxzZ/widWn8lPJufzANzsprJPCMwNyDch1HfO8JAcwDDm88di9aJkQiodjLojofc4f2PlHovy6HnizUVbjH55mp/XL12n+funT0dWEMX3TikM6g1G8BRT6Djx/HXHFtpMnPl7mY6hjgWLqYIEZwl9qS1MZelajYqCjeEhkQ3ZPyAKT5jDKKYCwHlf2cjPA/jTS6/4S7XipzMdIrelTHbP5Lu02tyPi19liQnA+VbXIa8I6tS2GON27G61tqVdZI2bEJ2CzaW0YEMAlb85VjdPQRFJxwjrkvKjqMlngqi8eEZ5cUW9p4bSQQhZu22X9IAjpbtGB/OiUdwuIq55l5jF4aPECEux78CRGuVarm0KK2Cvs6Ug5c4dv1icRUV+IvTqnr+JLfz7dzFP1unLnFkGNGZfLc3hXtIbdyb+jUvA6nG0botLWgikw4WqQ2HpzBabry7HWZ0DoE71zBBO562boVWbvQNUI5+rjirRnY4F9MECMOJYjRfAX6caQtxWg72PCByOhjgRECYRFBAcEqUiZHau4FAIxYmUMq4rWl2M+Kv9NmFlTKkuqxLfC5rIcziILjhreNXfxyi+s0="
 matrix:
   exclude:
     - os: osx
@@ -55,20 +53,12 @@ addons:
       - graphviz
       - gcc-4.8
       - g++-4.8
-  coverity_scan:
-    project:
-      name: "shaong/xgboost"
-      description: "Build submitted via Travis CI"
-    notification_email: cshaong@outlook.com
-    build_command_prepend: "./configure; make clean"
-    build_command:   "make -j 4"
-    branch_pattern: coverity_scan
 
 before_install:
   - source dmlc-core/scripts/travis/travis_setup_env.sh
   - export PYTHONPATH=${PYTHONPATH}:${PWD}/python-package
   - echo "MAVEN_OPTS='-Xmx2048m -XX:MaxPermSize=1024m -XX:ReservedCodeCacheSize=512m -Dorg.slf4j.simpleLogger.defaultLogLevel=error'" > ~/.mavenrc
-  - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+  
 install:
   - source tests/travis/setup.sh
 
