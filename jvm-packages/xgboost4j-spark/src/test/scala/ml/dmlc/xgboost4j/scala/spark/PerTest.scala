@@ -23,7 +23,7 @@ import org.apache.spark.sql.SparkSession
 import org.scalatest.{BeforeAndAfterEach, FunSuite}
 
 trait PerTest extends BeforeAndAfterEach { self: FunSuite =>
-  protected val numWorkers: Int = 4;
+  protected val numWorkers: Int = 4
 
   @transient private var currentSession: SparkSession = _
 
