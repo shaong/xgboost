@@ -10,6 +10,8 @@ osx_image: xcode8
 
 # Use Build Matrix to do lint and build seperately
 env:
+  global:
+    - secure: "f578xZyPl3XvvAuQSHEQMO+xq3z2N7u2KBMODNviMeeJqJcloxF5kOrblP8o+PxUS48JaoH55Z/Wu/1im/3/1YwUPVRGu0zeUYj3YfJkmYD5E8Q/DyTl9iLgV4Jpy4YOozncjD9pek4/DVE90CdgKnH2o+z5A0dGcb2koIAMvEtwK4XiABhjaKOF2CpvwlJEeLcOgGKgtGyPxV/hFRxkTFSC9iTTaxc6B93YZIU4OjZqgSDHEXLiwfrc9CWFQPk4DkrycXtxZ7FSLoHuF8Eb3mBYb4xr+4nUQpWFHScnFpUjl/C2Sl4DHyguffgRDscIh1kZmqUkUnMBQH7KG/XWs2q536NJEfecwmhFr/QZVbsXnhnWTIZ064NyesgGABNnlY/36u0kLOrU/q+t/pYyn81+Sh4EH8Jz/rBx9eW+nn6QjMmzXKeIniHx9c3PxPcyPE4owEc6Eu1VofZblhfqtvS+c41mGur27/nI/SAU238+ugys942FUIUd5k1FKK1flnINmKObOxdSGDUhl1H8LvKh3fsgZGVMeWfW/R6vblxx7kSgsO7wOATdfdvD4UBeLEw/QVuMJ/WEDisXK7HQV2X3SvoWJKD9GGUR7nt3qQR6g7uQkH+zU4uBLfYg0PZnSDG1Kb6a7ebF4Sfq1E8GKRKkiW6pZWveSYbSQ4MYzkM="
   matrix:
     # code lint
     - TASK=lint
@@ -53,12 +55,21 @@ addons:
       - graphviz
       - gcc-4.8
       - g++-4.8
+  coverity_scan:
+    project:
+      name: "shaong/xgboost"
+      description: "XGBoost Coverty Scan"
+    notification_email: cshaong@outlook.com
+    build_command_prepend: ""
+    build_command:   "make -j4"
+    branch_pattern: sc
 
 before_install:
   - source dmlc-core/scripts/travis/travis_setup_env.sh
   - export PYTHONPATH=${PYTHONPATH}:${PWD}/python-package
   - echo "MAVEN_OPTS='-Xmx2048m -XX:MaxPermSize=1024m -XX:ReservedCodeCacheSize=512m -Dorg.slf4j.simpleLogger.defaultLogLevel=error'" > ~/.mavenrc
-  
+  - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+
 install:
   - source tests/travis/setup.sh
 
