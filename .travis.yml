@@ -16,7 +16,7 @@ env:
     # code lint
     - TASK=lint
     # r package test
-    - TASK=r_test
+#    - TASK=r_test
     # python package test
     - TASK=python_test
     - TASK=python_lightweight_test
