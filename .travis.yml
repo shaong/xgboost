@@ -4,7 +4,7 @@ sudo: required
 # Enabling test on Linux and OS X
 os:
   - linux
-  - osx
+#  - osx
 
 osx_image: xcode8
 
@@ -26,18 +26,18 @@ env:
     - TASK=cmake_test
     # c++ test
     - TASK=cpp_test
-matrix:
-  exclude:
-    - os: osx
-      env: TASK=lint
-    - os: osx
-      env: TASK=cmake_test
-    - os: linux
-      env: TASK=r_test
-    - os: osx
-      env: TASK=python_lightweight_test
-    - os: osx
-      env: TASK=cpp_test
+#matrix:
+#  exclude:
+#    - os: osx
+#      env: TASK=lint
+#    - os: osx
+#      env: TASK=cmake_test
+#    - os: linux
+#      env: TASK=r_test
+#    - os: osx
+#      env: TASK=python_lightweight_test
+#    - os: osx
+#      env: TASK=cpp_test
 
 # dependent apt packages
 addons:
